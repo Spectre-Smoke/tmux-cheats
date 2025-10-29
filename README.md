@@ -2,6 +2,13 @@
 
 Schnellreferenz für `tmux` – Sessions, Windows (Tabs), Panes (Splits), Copy-Mode, Maus, Plugins & eine kompakte `.tmux.conf`.
 
+
+**Inhalt:** [Quickstart](#-quickstart) · [Sessions](#-sessions-workspaces) · [Windows](#-windows-tabs-innerhalb-einer-session)
+· [Panes/Splits](#-panes-splits-im-window) · [Copy-Mode](#-copy-mode-scrollen--kopieren)
+· [Maus](#-maus-support) · [Panes sync](#-panes-synchronisieren) · [Buffers](#-buffers--clipboard)
+· [tmux.conf (minimal)](#-minimale-tmuxconf) · [TPM/Plugins](#-plugins-optional-via-tpm)
+
+
 ---
 
 ## 🚀 Quickstart
