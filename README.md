@@ -3,13 +3,14 @@
 Schnellreferenz für `tmux` – Sessions, Windows (Tabs), Panes (Splits), Copy-Mode, Maus, Plugins & eine kompakte `.tmux.conf`.
 
 **Inhalt:**  
-[Quickstart](#quickstart) · [Sessions](#sessions-workspaces) · [Windows](#windows-tabs-innerhalb-einer-session) · [Panes/Splits](#panes-splits-im-window) · [Copy-Mode](#copy-mode-scrollen--kopieren) · [Maus](#maus-support) · [Panes sync](#panes-synchronisieren) · [Buffers](#buffers--clipboard) · [tmux.conf (minimal)](#minimale-tmuxconf) · [TPM/Plugins](#plugins-optional-via-tpm) · [Nuetzliche Einzeiler](#nuetzliche-einzeiler) · [Troubleshooting](#troubleshooting)
+[Quickstart](#quickstart) · [Sessions](#sessions-workspaces) · [Windows](#windows-tabs-innerhalb-einer-session) · [Panes/Splits](#panes-splits-im-window) · [Copy-Mode](#copy-mode-scrollen--kopieren) · [Maus](#maus-support) · [Panes sync](#panes-synchronisieren) · [Buffers](#buffers--clipboard) · [tmux.conf (minimal)](#minimale-tmuxconf) · [TPM/Plugins](#plugins-optional-via-tpm) · [Nützliche Einzeiler](#nuetzliche-einzeiler) · [Troubleshooting](#troubleshooting)
 
 ---
 
-## 🚀 Quickstart  {#quickstart}
+<a id="quickstart"></a>
+## 🚀 Quickstart
 
-~~~bash
+```bash
 # Installation (Ubuntu/Mint)
 sudo apt update && sudo apt install -y tmux
 
@@ -20,13 +21,14 @@ tmux new -s work
 tmux ls
 tmux attach -t work
 # In tmux: Prefix (Ctrl-b), dann d  -> detach (Session läuft weiter)
-~~~
+```
 
 ---
 
-## 🧭 Sessions (Workspaces)  {#sessions-workspaces}
+<a id="sessions-workspaces"></a>
+## 🧭 Sessions (Workspaces)
 
-~~~bash
+```bash
 # Neue Session
 tmux new -s NAME
 
@@ -40,99 +42,99 @@ tmux kill-session -t NAME
 
 # Praktischer Einzeiler: "anhängen oder neu"
 tmux attach -t work || tmux new -s work
-~~~
+```
 
 ---
 
-## 🗂️ Windows (Tabs) innerhalb einer Session  {#windows-tabs-innerhalb-einer-session}
+<a id="windows-tabs-innerhalb-einer-session"></a>
+## 🗂️ Windows (Tabs) innerhalb einer Session
 
-~~~text
-# Keys (mit Prefix Ctrl-b):
-c           -> neues Window
-,           -> Window umbenennen
-p / n       -> prev/next Window
-0..9        -> direkt zu Window
-&           -> Window schließen
-~~~
+**Keys (mit Prefix `Ctrl-b`):**
+- `c` – neues Window  
+- `,` – Window umbenennen  
+- `p` / `n` – prev/next Window  
+- `0..9` – direkt zu Window  
+- `&` – Window schließen  
 
-~~~bash
-# CLI-Variante
+```bash
+# CLI
 tmux new-window                 # neues Window
 tmux list-windows               # alle Windows auflisten
 tmux select-window -t 2         # zu Window 2 springen
 tmux rename-window -t 2 build   # Window 2 umbenennen
 tmux kill-window -t 2
-~~~
+```
 
 ---
 
-## 🪟 Panes (Splits) im Window  {#panes-splits-im-window}
+<a id="panes-splits-im-window"></a>
+## 🪟 Panes (Splits) im Window
 
-~~~text
-# Keys (mit Prefix Ctrl-b):
-"           -> horizontal split
-%           -> vertikal split
-Pfeile      -> Pane wechseln
-x           -> Pane killen
-o           -> zum nächsten Pane
-Ctrl-b :    -> Befehls-Prompt
-~~~
+**Keys (mit Prefix `Ctrl-b`):**
+- `"` – horizontal split  
+- `%` – vertikal split  
+- Pfeile – Pane wechseln  
+- `x` – Pane killen  
+- `o` – zum nächsten Pane  
+- `:` – Befehls-Prompt  
 
-~~~bash
-# Resizing (Standard – je nach Terminal):
+```bash
+# Resizing (je nach Terminal):
 # Ctrl-b + Alt + Pfeile
 
-# CLI-Variante
+# CLI
 tmux split-window -h            # horizontal (links/rechts)
 tmux split-window -v            # vertikal (oben/unten)
 tmux select-pane -L             # -R | -U | -D
 tmux swap-pane -U               # oder -D
 tmux resize-pane -L 5           # -R | -U | -D 5
-~~~
+```
 
 ---
 
-## 📋 Copy-Mode (Scrollen & Kopieren)  {#copy-mode-scrollen--kopieren}
+<a id="copy-mode-scrollen--kopieren"></a>
+## 📋 Copy-Mode (Scrollen & Kopieren)
 
-~~~text
-# Keys (mit Prefix Ctrl-b):
-[           -> Copy-Mode starten (Scrollen mit Pfeilen/PgUp/PgDn)
-/           -> Suche vorwärts, ? rückwärts
-Space       -> Start Markierung, Enter -> kopieren
-]           -> Einfügen aus tmux-Buffer
-~~~
+**Keys (mit Prefix `Ctrl-b`):**
+- `[` – Copy-Mode starten (Scrollen mit Pfeilen/PgUp/PgDn)  
+- `/` – Suche vorwärts, `?` rückwärts  
+- `Space` – Start Markierung, `Enter` – kopieren  
+- `]` – Einfügen aus tmux-Buffer  
 
-~~~bash
+```bash
 # Pane-Inhalt schnell in Datei sichern (ohne Copy-Mode)
 tmux capture-pane -S -10000 -p > pane.log
-~~~
+```
 
 ---
 
-## 🖱️ Maus-Support  {#maus-support}
+<a id="maus-support"></a>
+## 🖱️ Maus-Support
 
-~~~bash
-# Scrollen, Klick-Wechsel, Pane-Größen ziehen:
-# In .tmux.conf aktivieren:
+```tmux
+# In ~/.tmux.conf:
 set -g mouse on
-~~~
+```
 
 ---
 
-## 🔁 Panes synchronisieren  {#panes-synchronisieren}
+<a id="panes-synchronisieren"></a>
+## 🔁 Panes synchronisieren
 
-~~~bash
+```bash
 # Alle Tastatureingaben in alle Panes des Windows spiegeln
 setw synchronize-panes on
+
 # wieder aus:
 setw synchronize-panes off
-~~~
+```
 
 ---
 
-## 📦 Buffers & Clipboard  {#buffers--clipboard}
+<a id="buffers--clipboard"></a>
+## 📦 Buffers & Clipboard
 
-~~~bash
+```bash
 # Puffer anzeigen
 tmux list-buffers
 tmux show-buffer -b 0
@@ -142,16 +144,17 @@ tmux save-buffer -b 0 /tmp/tmux-buffer.txt
 
 # Datei in tmux-Buffer laden, dann mit ] einfügen
 tmux load-buffer /path/file.txt
-~~~
+```
 
 ---
 
-## ⚙️ Minimale .tmux.conf  {#minimale-tmuxconf}
+<a id="minimale-tmuxconf"></a>
+## ⚙️ Minimale .tmux.conf
 
 Diese Datei unter `~/.tmux.conf` anlegen, dann neu laden mit:
 `tmux source-file ~/.tmux.conf`
 
-~~~tmux
+```tmux
 ##### Prefix (optional zu Ctrl-a ändern)
 # set -g prefix C-a
 # unbind C-b
@@ -188,32 +191,34 @@ bind -r S-Left  resize-pane -L 3
 bind -r S-Right resize-pane -R 3
 bind -r S-Up    resize-pane -U 2
 bind -r S-Down  resize-pane -D 2
-~~~
+```
 
 ---
 
-## 🔌 Plugins (optional, via TPM)  {#plugins-optional-via-tpm}
+<a id="plugins-optional-via-tpm"></a>
+## 🔌 Plugins (optional, via TPM)
 
-~~~bash
+```bash
 # TPM installieren
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
-~~~
+```
 
 In `~/.tmux.conf` ergänzen (am Ende):
 
-~~~tmux
+```tmux
 # TPM
 set -g @plugin 'tmux-plugins/tpm'
 set -g @plugin 'tmux-plugins/tmux-sensible'
 set -g @plugin 'tmux-plugins/tmux-resurrect'   # Sessions/Layouts speichern
 run -b '~/.tmux/plugins/tpm/tpm'
-~~~
+```
 
 ---
 
-## 🧰 Nuetzliche Einzeiler  {#nuetzliche-einzeiler}
+<a id="nuetzliche-einzeiler"></a>
+## 🧰 Nützliche Einzeiler
 
-~~~bash
+```bash
 # Neue oder vorhandene "work"-Session
 tmux attach -t work || tmux new -s work
 
@@ -225,11 +230,12 @@ tmux display-message "#{window_active}:#{window_layout}"
 
 # Pane-Inhalt (letzte 2000 Zeilen) anzeigen
 tmux capture-pane -S -2000 -p
-~~~
+```
 
 ---
 
-## 🛠️ Troubleshooting  {#troubleshooting}
+<a id="troubleshooting"></a>
+## 🛠️ Troubleshooting
 
 - **Farben kaputt?** Terminal auf `xterm-256color` stellen und in `.tmux.conf` Truecolor (`terminal-overrides`) setzen.  
 - **Alt/Meta geht nicht?** In den Terminal-Einstellungen „Meta als Esc senden“ aktivieren.  
